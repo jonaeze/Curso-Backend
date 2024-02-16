@@ -19,7 +19,7 @@
 },{
     "id": 3,
     "title": "Zapatillas",
-    "description": "Remera manga corta",
+    "description": "Zapatillas para correr",
     "price": 5000,
     "thumbnail": "imagen.jpg",
     "code": "PF2",
@@ -28,7 +28,7 @@
 {
     "id": 4,
     "title": "Rodillera",
-    "description": "Pelota de Futbol",
+    "description": "Proteccion tibia",
     "price": 7000,
     "thumbnail": "imagen.jpg",
     "code": "PF1",
