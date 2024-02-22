@@ -1,36 +1,26 @@
 import express from 'express';
-import ProductManager from './productManagar.class.js';
+import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/carts.router.js';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const productManager = new ProductManager('src/products.json');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const PORT = 8080;
 
+//Middlawares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(`${__dirname}/public)`))
 
-app.get('/products', async (request, response) => {
-    try {
-        const limit = request.query.limit
-        const allProducts = await productManager.getProducts();
-        response.send(allProducts.slice(0, limit));
-    }
-    catch (error) {
-        response.send(error.message);
-    }
-});
+//RUTAS
 
-app.get('/products/:pid', async (request, response) => {
-    try {
-        const pid = parseInt(request.params.pid);
-        const foundProduct = await productManager.getProductById(pid);
-        response.send(foundProduct);
-    }
-    catch (error) {
-        response.send(error.message);
-    }
-});
+app.use('/api/products', productsRouter);
+
+app.use('/api/carts', cartsRouter);
 
 app.listen(PORT, () => {
-    console.log("escuchando en el puerto 8080");
+    console.log("Servidor corriendo en", PORT);
 });
