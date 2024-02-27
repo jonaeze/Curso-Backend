@@ -1,7 +1,7 @@
 import fs from 'fs';
-import ProductManager from './productManagar.class.js';
+import ProductManager from './productManager.class.js';
 
-const productManager = new ProductManager('src/products.json');
+const productManager = new ProductManager('src/data/products.json');
 
 class CartManager {
     constructor(filePath) {
@@ -24,7 +24,8 @@ class CartManager {
     //POST
     //TODO:validar todos los productos que lleguen en el arrays prorducts que esten en mi contenedor
     createCart = async (products) => {
-        const carts = await this.loadCarts();
+        try {
+            const carts = await this.loadCarts();
         // Si me mandaron productos, validar que los productos existan en mi contenedor de productos.
         const newCart = {
             id: carts.length + 1, // Autoincrementar el ID
@@ -33,15 +34,24 @@ class CartManager {
         carts.push(newCart) // Agrego el carrito nuevo a mi contenedor de carritos (carts).
         await this.saveCarts(carts)
         return carts
+        } catch (error) {
+            throw new Error(error.message)
+        }
+        
     }
 
     getCarts = async (id) => {
-        const carts = await this.loadCarts()
+        try {
+            const carts = await this.loadCarts()
         const cart = carts.find((cart) => cart.id === id);
         if (!cart) {
             throw new Error(`Not Found: No se encontró el carrito con el ID ${id}.`);
         }
-        return cart.products;
+            return cart.products;
+        } catch (error) {
+            throw new Error(error.message)
+        }
+        
     }
 
     addProductToCart = async (cartId, productId, quantity) => {

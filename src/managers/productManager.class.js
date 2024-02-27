@@ -20,25 +20,34 @@ class ProductManager {
 //Se escribe donde se guardaran los productos y luego se lo pasa a un JSON con formato legible
     
     saveProducts = async (products) => {
-        await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2), 'utf-8');
+        try {
+            await fs.promises.writeFile(this.path, JSON.stringify(products, null, 2), 'utf-8');
+        } catch (error) {
+            throw new Error(error.message)
+        }
+        
     }
 
 //Valida que los campos sean obligatorios
     
     validate = (product, products) => {
-        if (!product.title || !product.description || !product.price || !product.code || !product.stock) {
+        try {
+            if (!product.title || !product.description || !product.price || !product.code || !product.stock) {
             throw new Error("Todos los campos son obligatorios.");
         }
         if (products.some(savedProduct => savedProduct.code === product.code)) {
             throw new Error("El código " + product.code + " ya se encuentra utilizado por otro producto.");
         }
-        
+        } catch (error) {
+            throw new Error(error.message)
+        }     
     }
 
 //Se agrega el producto
     // POST 
     addProduct = async (product) => {
-        const products = await this.loadProducts();
+        try {
+            const products = await this.loadProducts();
         this.validate(product, products);
         if (product.status === undefined || product.status !== false) {
             product.status = true  
@@ -52,13 +61,22 @@ class ProductManager {
         products.push(newProduct);
         await this.saveProducts(products);
         return products;
+        } catch (error) {
+            throw new Error(error.message)
+        }
+        
     }
 
 //Se obtine la lista de productos almacenada
     //GET
     getProducts = async () => {
-        const products = await this.loadProducts();
-        return products;
+        try {
+            const products = await this.loadProducts();
+            return products;
+        } catch (error) {
+            throw new Error(error.message)
+        }
+        
     }
 
 //Se busca el producto por ID
@@ -79,35 +97,40 @@ class ProductManager {
 // Se Actualizan los campos que se le otorgue
     //PUT
     updateProduct = async (id, updatedFields) => {
-        const products = await this.loadProducts();
-        const index = products.findIndex((product) => product.id === id);
+        try {
+            const products = await this.loadProducts();
+            const index = products.findIndex((product) => product.id === id);
 
-        if (index !== -1) {
-            const updatedProduct /*producto antiguo a updatear*/ = { id, ...updatedFields };
-            products[index] = updatedProduct;
-            await this.saveProducts(products);
-            return products[index];
-        } else {
+            if (index !== -1) {
+                const updatedProduct /*producto antiguo a updatear*/ = { id, ...updatedFields };
+                products[index] = updatedProduct;
+                await this.saveProducts(products);
+                return products[index];
+            }
+        } catch (error) {
             throw new Error(`Not Found: No se encontró el producto con el ID ${id}.`);
-        }
+        }    
     }
 
 //Se elimina el producto por ID
     //DELETE
     deleteProduct = async (id) => {
-        let products = await this.loadProducts();
-        const index = products.findIndex((product) => product.id === id);
+        try {
+            let products = await this.loadProducts();
+            const index = products.findIndex((product) => product.id === id);
 
-        if (index !== -1) {
-            const newProducts /*Productos(ARRAY DE PRODUCTOS) sin el producto a borrar*/ = products.filter((product) => product.id !== id);
-            products = newProducts;
-            await this.saveProducts(products);
-            return products;
-        } else {
-            throw new Error(`Not Found: No se encontró el producto con el ID ${id}.`);
-        }
-    }
+            if (index !== -1) {
+                const newProducts /*Productos(ARRAY DE PRODUCTOS) sin el producto a borrar*/ = products.filter((product) => product.id !== id);
+                products = newProducts;
+                await this.saveProducts(products);
+                return products;
+            }
+        } catch (error) {
+                throw new Error(`Not Found: No se encontró el producto con el ID ${id}.`);
+            }
+    }    
 }
+
 
 //Se exporta la class para poder utilizar los metodos en el archivo donde sean llamados
 export default ProductManager;
