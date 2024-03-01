@@ -21,7 +21,35 @@ class CartManager {
     saveCarts = async (carts) => {
         await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2), 'utf-8');
     }
-    //POST
+
+    getCarts = async (id) => {
+        try {
+            const carts = await this.loadCarts()
+        const cart = carts.find((cart) => cart.id === id);
+        if (!cart) {
+            throw new Error(`Not Found: No se encontró el carrito con el ID ${id}.`);
+        }
+            return cart.products;
+        } catch (error) {
+            throw new Error(error.message)
+        }
+        
+    }
+
+    getByIdCart = async (id) => {
+        try {
+            const carts = await this.loadCarts()
+            const cart = carts.find((cart) => cart.id === id);
+
+            if (!cart) {
+                throw new Error(`El carrito que esta solicitando no se encontro`)
+            }
+            return cart;
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+//POST
     //TODO:validar todos los productos que lleguen en el arrays prorducts que esten en mi contenedor
     createCart = async (products) => {
         try {
@@ -36,22 +64,7 @@ class CartManager {
         return carts
         } catch (error) {
             throw new Error(error.message)
-        }
-        
-    }
-
-    getCarts = async (id) => {
-        try {
-            const carts = await this.loadCarts()
-        const cart = carts.find((cart) => cart.id === id);
-        if (!cart) {
-            throw new Error(`Not Found: No se encontró el carrito con el ID ${id}.`);
-        }
-            return cart.products;
-        } catch (error) {
-            throw new Error(error.message)
-        }
-        
+        }    
     }
 
     addProductToCart = async (cartId, productId, quantity) => {
@@ -105,5 +118,13 @@ class CartManager {
         }
     }
 }
+
+    // deleteProductFromCart = async (id) => {
+    //         try {
+                
+    //         } catch (error) {
+                
+    //         }
+    //     }
 
 export default CartManager;

@@ -1,0 +1,32 @@
+[
+  {
+    "id": 2,
+    "title": "pelota3",
+    "description": "una pelota33",
+    "price": 300,
+    "stock": 5,
+    "thumnails": "image2.jpg",
+    "code": "PF1",
+    "status": true
+  },
+  {
+    "id": 3,
+    "title": "pelota1",
+    "description": "una pelota11",
+    "price": 100,
+    "stock": 5,
+    "thumnails": "image1.jpg",
+    "code": "PF3",
+    "status": true
+  },
+  {
+    "id": 4,
+    "title": "pelota5",
+    "description": "una pelota55",
+    "price": 500,
+    "stock": 5,
+    "thumnails": "image5.jpg",
+    "code": "PF5",
+    "status": true
+  }
+]
