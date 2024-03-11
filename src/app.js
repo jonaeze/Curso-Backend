@@ -8,7 +8,7 @@ import router from './routes/views.router.js'
 import productsSocket from '../src/sockets/realTimeProducts.socket.js';
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080
 
 //Middlawares
 app.engine('handlebars', handlebars.engine());
