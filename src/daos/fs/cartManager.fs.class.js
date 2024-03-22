@@ -1,7 +1,7 @@
 import fs from 'fs';
-import ProductManager from './productManager.fs.class.js';
+import ProductManager from '../fs/productManager.fs.class.js';
 
-const productManager = new ProductManager('src/data/products.json');
+const productManager = new ProductManager('src/daos/fs/data/products.json');
 
 class CartManager {
     constructor(filePath) {

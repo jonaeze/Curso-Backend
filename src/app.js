@@ -3,7 +3,6 @@ import __dirname from './utils.js';
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io';
 import mongoose from 'mongoose';
-
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import router from './routes/views.router.js'
@@ -28,11 +27,28 @@ app.use(router);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
+
+
+const connectMongoDB = async () => {
+
+const DB_URL = 'mongodb://127.0.0.1:27017/ecommerce?retryWrites=true&w=majority'
+
+    try {
+        await mongoose.connect(DB_URL)
+        console.log("Conectado con MongoDB")
+    } catch (error) {
+            console.error("No se pudo conectar a la DB", error)
+            process.exit()
+        }
+}
+
 //Mi variable server tiene adentro la aplicacion.
-const server = app.listen(PORT, () => { console.log("Servidor corriendo en puerto", PORT) }); 
+const server = app.listen(PORT, () => { console.log(`Servidor corriendo en http://localhost:${PORT}`)}); 
 
 //Inicializo el socket server del lado del servidor
 const socketServer = new Server(server) // Instanciando socket.io
 
 //El metodo productsSocket que importe hace que mi socket server le emita los datos al cliente
 productsSocket(socketServer);
+
+connectMongoDB()

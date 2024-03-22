@@ -1,8 +1,10 @@
-import { Router } from "express";
-import ProductManager from '../managers/productManager.fs.class.js';
+// import { Router } from "express";
+// import ProductManager from '../daos/fs/productManager.fs.class.js'; //Me traigo el molde
+import express from "express"
+import ProductManager from '../daos/mongo/Products.dao.mongo.js'
 
-const productManager = new ProductManager('src/data/products.json');
-const productsRouter = new Router()
+const productManager = new ProductManager()
+const productsRouter = express.Router()
 
 productsRouter.get("/", async (request, response) => {
     try {

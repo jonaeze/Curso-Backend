@@ -84,7 +84,7 @@ class ProductManager {
     getProductById = async (id) => {
         try {
             const products = await this.loadProducts();
-        const product = products.find((product) => product.id === id);
+            const product = products.find((product) => product.id === id);
         if (!product) {
             throw new Error(`Not Found: No se encontró el producto con el ID ${id}.`);
         }

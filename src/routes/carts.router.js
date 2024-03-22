@@ -1,8 +1,10 @@
-import { Router, response } from "express";
-import CartManager from "../managers/cartManager.fs.class.js";
+// import { Router, response } from "express";
+// import CartManager from "../daos/fs/cartManager.fs.class.js"
+import express from "express"
+import CartManager from '../daos/mongo/Carts.dao.mongo.js'
 
-const cartsManager = new CartManager('src/data/carts.json')
-const cartsRouter = new Router()
+const cartsManager = new CartManager()
+const cartsRouter = express.Router()
 
 cartsRouter.post("/", async (request, response) => {
     try {
@@ -23,7 +25,7 @@ cartsRouter.get("/:cid", async (request, response) => {
     } catch (error) {
         response.send(error.message)
     }
-})
+});
 
 cartsRouter.post("/:cid/product/:pid", async (request, response) => {
     try {
@@ -38,7 +40,5 @@ cartsRouter.post("/:cid/product/:pid", async (request, response) => {
         response.send(error.message);
     }
 });
-
-
 
 export default cartsRouter
