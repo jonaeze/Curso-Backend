@@ -6,7 +6,7 @@ let user;
 window.onload = () => {
     Swal.fire({
             title: 'Indentificate',
-            text: 'Igrese su nombre de usuario',
+            text: 'Ingrese su nombre de usuario',
             input: "text",
             inputValidator: (value) => {
                 return !value && "Necesitas escribir un nombre para continuar"
