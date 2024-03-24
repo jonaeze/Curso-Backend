@@ -7,6 +7,7 @@ import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import router from './routes/views.router.js'
 import productsSocket from '../src/sockets/realTimeProducts.socket.js';
+import chatRouter from './routes/chat.router.js'
 
 const app = express();
 const PORT = process.env.PORT || 8080
@@ -20,13 +21,14 @@ app.use(express.json());
 app.engine('handlebars', handlebars.engine());
 
 //Configuracion de archivos estaticos
-app.use('/static', express.static(__dirname+'/public'))
+app.use('/static', express.static(__dirname + '/public'))
+app.use('/static', express.static(__dirname+'/chat'))
 app.use(router);
 
 //RUTAS
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-
+app.use('/api/chat',chatRouter)
 
 
 const connectMongoDB = async () => {
@@ -50,5 +52,20 @@ const socketServer = new Server(server) // Instanciando socket.io
 
 //El metodo productsSocket que importe hace que mi socket server le emita los datos al cliente
 productsSocket(socketServer);
+
+const msg = []
+
+socketServer.on('connection', socket =>{
+
+    console.log("Connected!")
+
+    socket.on("message", (data)=> {
+        
+        msg.push(data)
+        socketServer.emit('messageLogs', msg)
+        
+    })
+
+})
 
 connectMongoDB()

@@ -22,4 +22,12 @@ router.get('/realtimeproducts', (request, response) => {
     }
 })
 
+router.get('/chat', (request, response) => {
+    try {
+        response.render('chat')
+    } catch (error) {
+        response.render(error.message)
+    }
+})
+
 export default router;
