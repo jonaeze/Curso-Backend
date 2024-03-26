@@ -33,7 +33,7 @@ app.use('/api/chat',chatRouter)
 
 const connectMongoDB = async () => {
 
-const DB_URL = 'mongodb+srv://CoderBertonasco:BriannaSelene2024@codercluster.wzawnzg.mongodb.net/?retryWrites=true&w=majority&appName=CoderCluster'
+const DB_URL = 'mongodb://127.0.0.1:27017/ecommerce?retryWrites=true&w=majority'
 
     try {
         await mongoose.connect(DB_URL)
