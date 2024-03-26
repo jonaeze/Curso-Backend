@@ -35,7 +35,7 @@ class ProductManager {
 
     updateProduct = async (id, updatedFields) => {
         try {
-            let products= await productsModel.updateOne({_id:id}, {$set: updatedFields})
+            let products= await productsModel.updateOne({ _id: id }, { $set: updatedFields })
             return products
         } catch (error) {
             throw new Error(error.message)
@@ -44,7 +44,7 @@ class ProductManager {
     
     deleteProduct = async (id) => {
         try {
-            let product = await productsModel.deleleOne({_id:id})
+            let product = await productsModel.findOneAndDelete({ _id: id })
             return product
         } catch (error) {
             throw new Error(error.message)
