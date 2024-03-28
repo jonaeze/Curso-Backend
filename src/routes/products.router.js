@@ -19,7 +19,7 @@ productsRouter.get("/", async (request, response) => {
 
 productsRouter.get("/:pid", async (request, response) => {
     try {
-        const pid = parseInt(request.params.pid);
+        const pid = request.params.pid;
         const foundProduct = await productManager.getProductById(pid);
         response.send(foundProduct);
     }
@@ -41,7 +41,7 @@ productsRouter.post("/", async (request, response) => {
 
 productsRouter.put("/:pid", async (request, response) => {
     try {
-        const pid = parseInt(request.params.pid);
+        const pid = request.params.pid;
         const updatedProduct = await productManager.updateProduct(pid, request.body)
         response.send(updatedProduct);
     }
@@ -52,7 +52,8 @@ productsRouter.put("/:pid", async (request, response) => {
 
 productsRouter.delete("/:pid", async (request, response) => {
     try {
-        const pid = parseInt(request.params.pid);
+        const pid = request.params.pid;
+        console.log("product id", pid)
         const newProductsList = await productManager.deleteProduct(pid)
         response.send(newProductsList);
     }
