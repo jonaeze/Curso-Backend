@@ -9,8 +9,15 @@ const productsRouter = express.Router()
 productsRouter.get("/", async (request, response) => {
     try {
         const limit = request.query.limit  // Los datos de las peticiones se guardan en un objeto que se llama "REQUEST"
-        const allProducts = await productManager.getProducts();
-        response.send(allProducts.slice(0, limit));
+        const page = request.query.page
+        const sortOptions = { ["price"]: request.query.sort || "asc"}
+        const filters = {}         
+        request.query.category ? filters.category = request.query.category : filters
+        request.query.title ? filters.title = request.query.title : filters
+        request.query.status ? filters.status = request.query.status : filters
+
+        const allProducts = await productManager.getProducts(limit,page,filters,sortOptions);
+        response.send(allProducts);
     }
     catch (error) {
         response.send(error.message);
@@ -30,6 +37,7 @@ productsRouter.get("/:pid", async (request, response) => {
 
 productsRouter.post("/", async (request, response) => {
     try {
+        console.log("Entre al post")
         const newProduct = request.body
         const products = await productManager.addProduct(newProduct)
         response.send(products);

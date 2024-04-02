@@ -6,9 +6,30 @@ class ProductManager {
         console.log("ProductManager funcionando")
     }
 
-    getProducts = async () => {
+    getProducts = async (limit=10, page=1 , filters , sortOptions) => {  // El igual en un parametro indica valor por defecto
         try {
-            let products = await productsModel.find()
+            if (!Number.isInteger(parseInt(limit))) {
+                throw new Error("El limite ingresado no es un valor entero positivo.")
+            }
+            if (!Number.isInteger(parseInt(page))) {
+                throw new Error("La pagina ingresada no es un valor entero positivo.")
+            }
+            let products = await productsModel.paginate(filters, { limit: limit, page: page, sort: sortOptions });
+            let { prevPage, nextPage, hasPrevPage, hasNextPage } = products // Me traigo de la respuesta del modelo lo que necesito para armar los links
+            let prevLink //creo la variable vacia para almacenar el link
+            let nextLink //creo la variable vacia para almacenar el link
+
+            !hasPrevPage
+                ? (prevLink = null)
+                : (prevLink = `/api/products?page=${prevPage}&limit=${limit}&sort=${sortOptions.price}`)
+
+            !hasNextPage
+                ? (nextLink = null)
+                : (nextLink = `/api/products?page=${nextPage}&limit=${limit}&sort=${sortOptions.price}`)
+            
+            products.nextLink = nextLink
+            products.prevLink = prevLink
+            
             return products
         } catch (error) {
             throw new Error(error.message)

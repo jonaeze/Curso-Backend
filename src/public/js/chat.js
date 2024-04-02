@@ -30,13 +30,9 @@ chatbox.addEventListener('keyup', e =>{
 })
 
 socket.on('messageLogs', data => {
-    
     let messages = ""
-
     data.forEach(msg => {
         messages+= `${msg.user} dice: ${msg.message}<br/>`
     });
-
     log.innerHTML=messages
-
 })

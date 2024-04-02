@@ -12,7 +12,6 @@ import chatRouter from './routes/chat.router.js'
 const app = express();
 const PORT = process.env.PORT || 8080
 
-
 //Middlawares
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
@@ -28,7 +27,7 @@ app.use(router);
 //RUTAS
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-app.use('/api/chat',chatRouter)
+app.use('/api/chat', chatRouter)
 
 
 const connectMongoDB = async () => {
