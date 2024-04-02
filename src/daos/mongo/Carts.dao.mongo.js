@@ -12,9 +12,9 @@ class CartManager {
         return cart
     }
 
-    getCarts = async (cid) => {
+    getCarts = async () => {
         try {
-            let carts = await productsModel.find(cid)
+            let carts = await cartModel.paginate({}, { populate: 'products.product', lean: true, new: true });
             return carts
         } catch (error) {
             throw new Error(error.message)
@@ -34,8 +34,8 @@ class CartManager {
         return await cart.save();
     }
 
-    getCartById = async (id) => {
-        let cart = await cartModel.findById(id)
+    getCartById = async (cid) => {
+        let cart = await cartModel.findById(cid)
         return cart
     }
 

@@ -17,10 +17,19 @@ cartsRouter.post("/", async (request, response) => {
     }
 });
 
+cartsRouter.get("/", async (request, response) => {
+    try {
+        const foundCarts = await cartsManager.getCarts()
+        response.send(foundCarts)
+    } catch (error) {
+        response.send(error.message)
+    }
+});
+
 cartsRouter.get("/:cid", async (request, response) => {
     try {
         const cid = parseInt(request.params.cid);
-        const foundCarts = await cartsManager.getCarts(cid)
+        const foundCarts = await cartsManager.getCartById(cid)
         response.send(foundCarts)
     } catch (error) {
         response.send(error.message)
@@ -29,8 +38,8 @@ cartsRouter.get("/:cid", async (request, response) => {
 
 cartsRouter.post("/:cid/product/:pid", async (request, response) => {
     try {
-        const pid = parseInt(request.params.pid);
-        const cid = parseInt(request.params.cid);
+        const pid = request.params.pid;
+        const cid = request.params.cid;
         const productToCart = { product: pid, quantity: 1 }
         
         const newProductToCart = await cartsManager.addProductToCart(cid, pid, 1);
