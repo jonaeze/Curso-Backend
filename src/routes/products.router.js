@@ -37,7 +37,6 @@ productsRouter.get("/:pid", async (request, response) => {
 
 productsRouter.post("/", async (request, response) => {
     try {
-        console.log("Entre al post")
         const newProduct = request.body
         const products = await productManager.addProduct(newProduct)
         response.send(products);
@@ -60,8 +59,7 @@ productsRouter.put("/:pid", async (request, response) => {
 
 productsRouter.delete("/:pid", async (request, response) => {
     try {
-        const pid = request.params.pid;
-        console.log("product id", pid)
+        const pid = request.params.pid
         const newProductsList = await productManager.deleteProduct(pid)
         response.send(newProductsList);
     }

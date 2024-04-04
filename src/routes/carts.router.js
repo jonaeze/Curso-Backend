@@ -50,4 +50,16 @@ cartsRouter.post("/:cid/product/:pid", async (request, response) => {
     }
 });
 
+cartsRouter.delete("/:cid/product/:pid", async (request, response) => {
+    try {
+        const pid = request.params.pid
+        const cid = request.params.cid
+        const newProductsList = await cartsManager.deleteProduct(cid, pid)
+        response.send(newProductsList);
+    }
+    catch (error) {
+        response.send(error.message);
+    }
+});
+
 export default cartsRouter
