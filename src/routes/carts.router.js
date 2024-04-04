@@ -62,4 +62,15 @@ cartsRouter.delete("/:cid/product/:pid", async (request, response) => {
     }
 });
 
+cartsRouter.delete("/:cid/products", async (request, response) => {
+    try {
+        const cid = request.params.cid;
+        await cartsManager.deleteAllProducts(cid)
+        response.send("Todos los productos han sido eliminados del carrito.");
+    }
+    catch (error) {
+        response.send(error.message);
+    }
+});
+
 export default cartsRouter

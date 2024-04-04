@@ -48,9 +48,19 @@ class CartManager {
         }else{
             cart.products.splice(product,1)
         }
+        return await cart.save();
+    }
+    deleteAllProducts = async (cid) => {
+        let cart = await cartModel.findById(cid);
 
+        if (!cart) {
+            throw new Error("Carrito no encontrado");
+        }
+        cart.products = []; 
         return await cart.save();
     }
 }
+
+
 
 export default CartManager;
