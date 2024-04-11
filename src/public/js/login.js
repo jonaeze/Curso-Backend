@@ -12,7 +12,7 @@ form.addEventListener('submit', event => {
         headers: { "Content-Type": "application/json", }
     }).then((response) => {
         if (response.status === 200) {
-            window.location.replace("/")
+            window.location.replace("/realTimeProducts")
         };
     });
 });

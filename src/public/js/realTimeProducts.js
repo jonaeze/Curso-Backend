@@ -1,8 +1,8 @@
 //En este archivo le estamos mandando un scrtipt al cliente en donde le indicamos que es lo que tiene que hacer ante un evento socket.
 const socket = io()
 
-const renderProducts = (products) => {
-    console.log("productos del lado del cliente: ", products)// En esta funcion le digo al cliente como renderizar
+const renderProducts = (products) => {// En esta funcion le digo al cliente como renderizar
+    
     let productsTable = document
         .getElementById('productsTable')
         .getElementsByTagName('tbody')[0]
@@ -20,6 +20,16 @@ const renderProducts = (products) => {
 
     return productsTable
 };
+
+window.onload = () => {
+        Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Se a ingresado correctamente",
+        showConfirmButton: false,
+        timer: 2000
+    });
+}
 
 socket.on('products', (products) => { // En esta linea le digo al cliente que cuando ocurra el evento: "PRODUCTS" que ejecute la funcion renderProducts
     renderProducts(products)
