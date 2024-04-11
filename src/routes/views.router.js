@@ -1,10 +1,11 @@
 import { Router } from "express";
 import ProductManager from "../../src/daos/mongo/Products.dao.mongo.js";
+import { auth }  from "../middlewares/auth.js";
 
 const productManager = new ProductManager();
 const router = new Router();
 
-router.get('/', async (request, response) => {
+router.get('/products', async (request, response) => {
     try {
         const result = await productManager.getProducts();
         response.render('home', { products: result.docs }); // El primer parametro a recibir en el Render es la vista a la que quiro renderizar y el segundo parametro es un objeto CON metadata que le quiero mandar a la vista.
@@ -45,10 +46,10 @@ router.get('/login', (request, response) => {
     }   
 })
 
-// router.get('/', (request, response) => {
-//     response.render('profile', {
-//         user: request.session.user
-//     });
-// })
+router.get('/', auth , (request, response) => {
+    response.render('profile', {
+        user: request.session.user
+    });
+})
 
 export default router;
