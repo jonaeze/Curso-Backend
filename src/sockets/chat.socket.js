@@ -11,4 +11,6 @@ const chatSocket = async (socketServer) => {
     })
 }
 
-export default chatSocket
+export default chatSocket;
+
+//Este es el socket del lado del servidor;

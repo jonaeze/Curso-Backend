@@ -2,8 +2,8 @@ import productsModel from "./models/products.model.js"
 
 class ProductManager {
 
-    constructor(){
-        console.log("ProductManager funcionando")
+    constructor() {   
+        
     }
 
     getProducts = async (limit=10, page=1 , filters , sortOptions) => {  // El igual en un parametro indica valor por defecto
@@ -14,7 +14,7 @@ class ProductManager {
             if (!Number.isInteger(parseInt(page))) {
                 throw new Error("La pagina ingresada no es un valor entero positivo.")
             }
-            let products = await productsModel.paginate(filters, { limit: limit, page: page, sort: sortOptions });
+            let products = await productsModel.paginate(filters, { limit: limit, page: page, sort: sortOptions, lean: true, new: true });
             let { prevPage, nextPage, hasPrevPage, hasNextPage } = products // Me traigo de la respuesta del modelo lo que necesito para armar los links
             let prevLink //creo la variable vacia para almacenar el link
             let nextLink //creo la variable vacia para almacenar el link
