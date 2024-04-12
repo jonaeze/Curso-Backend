@@ -47,9 +47,7 @@ router.get('/login', (request, response) => {
 })
 
 router.get('/', auth , (request, response) => {
-    response.render('profile', {
-        user: request.session.user
-    });
+    response.render('realTimeProducts');
 })
 
 export default router;

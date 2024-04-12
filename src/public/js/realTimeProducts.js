@@ -10,6 +10,7 @@ const renderProducts = (products) => {// En esta funcion le digo al cliente como
     products.forEach((product) => {
         productRows += `<tr>
                             <td>${product.title}</td>
+                            <td>${product.category}</td>
                             <td>${product.price}</td>
                             <td>${product.code}</td>
                             <td>${product.stock}</td>
