@@ -10,8 +10,9 @@ form.addEventListener('submit', event => {
         method: "POST",
         body: JSON.stringify(objet),
         headers: { "Content-Type": "application/json", }
-    }).then((response) => response.json())
-        .then((json) => {
-            console.log(json);
-        });
+    }).then((response) => {
+        if (response.status === 201) {
+            window.location.replace("/login");
+        };
+    });
 });

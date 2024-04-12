@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-
-
 const connectMongoDB = async () => {
     try {
         const PASS_MONGO = 'bLsveGKxfX2hEU9J'
