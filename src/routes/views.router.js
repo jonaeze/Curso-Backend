@@ -14,13 +14,13 @@ router.get('/products', async (request, response) => {
     } 
 });
 
-router.get('/realtimeproducts', (request, response) => {
+router.get('/realtimeproducts', auth, (request, response) => {
     try {
         response.render('realTimeProducts');
     } catch (error) {
         response.render(error.message);
     }
-})
+});
 
 router.get('/chat', (request, response) => {
     try {
@@ -28,26 +28,26 @@ router.get('/chat', (request, response) => {
     } catch (error) {
         response.render(error.message);
     }
-})
+});
 
 router.get('/register', (request, response) => {
     try {
         response.render('register');
     } catch (error) {
         response.render(error.message);
-    }  
-})
+    }
+});
 
 router.get('/login', (request, response) => {
     try {
         response.render('login');
     } catch (error) {
         response.render(error.message);
-    }   
-})
+    }
+});
 
-router.get('/', auth , (request, response) => {
+router.get('/', auth, (request, response) => {
     response.render('realTimeProducts');
-})
+});
 
 export default router;

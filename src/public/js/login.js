@@ -3,12 +3,12 @@ const form = document.getElementById('loginForm');
 form.addEventListener('submit', event => {
     event.preventDefault();
     const data = new FormData(form);
-    const objet = {};
-    data.forEach((value, key) => objet[key] = value);
+    const user = {};
+    data.forEach((value, key) => user[key] = value);
     
     fetch("/api/sessions/login", {
         method: "POST",
-        body: JSON.stringify(objet),
+        body: JSON.stringify(user),
         headers: { "Content-Type": "application/json", }
     }).then((response) => {
         if (response.status === 200) {
@@ -16,3 +16,5 @@ form.addEventListener('submit', event => {
         };
     });
 });
+
+

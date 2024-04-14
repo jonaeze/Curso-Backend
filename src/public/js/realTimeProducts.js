@@ -1,8 +1,7 @@
 //En este archivo le estamos mandando un scrtipt al cliente en donde le indicamos que es lo que tiene que hacer ante un evento socket.
 const socket = io()
 
-const renderProducts = (products) => {// En esta funcion le digo al cliente como renderizar
-    
+const renderProducts = (products) => {// En esta funcion le digo al cliente como renderizar   
     let productsTable = document
         .getElementById('productsTable')
         .getElementsByTagName('tbody')[0]
@@ -16,9 +15,7 @@ const renderProducts = (products) => {// En esta funcion le digo al cliente como
                             <td>${product.stock}</td>
                             </tr>`
     });
-
     productsTable.innerHTML = productRows
-
     return productsTable
 };
 

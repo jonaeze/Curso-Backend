@@ -34,4 +34,9 @@ request.session.user = {
   });
 });
 
+sessionsRouter.get("/logout", async (request, response) => {
+  console.log("entre")
+  response.clearCookie('connect.sid').redirect('/login');
+});
+
 export default sessionsRouter;
