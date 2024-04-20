@@ -3,7 +3,6 @@ import __dirname from './utils.js';
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io';
 import connectMongoDB from './config/database.js'
-import DB_URL from './config/database.js'
 import mongoose from 'mongoose';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
@@ -13,8 +12,6 @@ import chatRouter from './routes/chat.router.js';
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import sessionsRouter from './routes/session.router.js';
-import passport from 'passport';
-import initializePassport from './config/passport.config.js';
 
 
 const app = express();
@@ -30,6 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.engine('handlebars', handlebars.engine());
 
+import passport from 'passport';
+// import initializePassport from './config/passport.config.js';
+
+// initializePassport();
 app.use(session({
     store: new MongoStore({
         mongoUrl: DBURL,
@@ -40,9 +41,9 @@ app.use(session({
     saveUninitialized: false
 }));
 
-initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
+
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 //Configuracion de archivos estaticos
 app.use('/static', express.static(__dirname + '/public'))
