@@ -1,6 +1,6 @@
 import { Router } from "express";
 import ProductManager from "../../src/daos/mongo/Products.dao.mongo.js";
-import { auth }  from "../middlewares/auth.js";
+import  auth   from "../middlewares/auth.js";
 
 const productManager = new ProductManager();
 const router = new Router();
@@ -48,6 +48,14 @@ router.get('/login', (request, response) => {
 
 router.get('/', auth, (request, response) => {
     response.render('realTimeProducts');
+});
+
+router.get('/restore', (request, response) => {
+    try {
+        response.render('restore');
+    } catch (error) {
+        response.render(error.message);
+    }
 });
 
 export default router;

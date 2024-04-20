@@ -9,10 +9,12 @@ import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
 import router from './routes/views.router.js'
 import productsSocket from '../src/sockets/realTimeProducts.socket.js';
-import chatRouter from './routes/chat.router.js'
+import chatRouter from './routes/chat.router.js';
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import sessionsRouter from './routes/session.router.js';
+import passport from 'passport';
+import initializePassport from './config/passport.config.js';
 
 
 const app = express();
@@ -37,6 +39,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Configuracion de archivos estaticos
 app.use('/static', express.static(__dirname + '/public'))
