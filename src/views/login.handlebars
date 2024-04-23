@@ -1,15 +1,17 @@
-<div>
-    <h1>Login</h1>
-    <form id="loginForm">
-        <label>Email</label>
-        <input name="email">
-        <br />
-        <label>Contraseña</label>
-        <input type="password" name="password">
-        <input type="submit" value="Iniciar Sesión">
-    </form>
-    <p>¿No tienes cuenta? <a href="/register">Regístrate aquí</a></p>
-    <p><a href="/restore">¿Olvidó su contraseña?</a></p>
+<div class="container">
+    <h1>Inicia Sesión</h1>
+    <div class="form-container">
+        <form id="loginForm">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="input-field">
+            <br />
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" class="input-field">
+            <input type="submit" value="Iniciar Sesión" class="submit-btn">
+        </form>
+    </div>
+    <p>¿No tienes cuenta? <a href="/register" class="link">Regístrate aquí</a></p>
+    <p><a href="/restore" class="link">¿Olvidaste tu contraseña?</a></p>
 </div>
 
 <script src="/static/js/login.js"></script>

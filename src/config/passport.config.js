@@ -10,7 +10,7 @@ const initializePassport = () => {
     "register",
     new LocalStrategy(
       { passReqToCallback: true, usernameField: "email" },
-      async (req, username, password, done) => {
+      async (request, username, password, done) => {
         const { first_name, last_name, email, age } = request.body;
 
         try {
@@ -27,8 +27,6 @@ const initializePassport = () => {
             age,
             password: createHash(password),
           };
-
-          // Guardar el usuario
           const result = await userService.create(newUser);
           return done(null, result);
         } catch (error) {

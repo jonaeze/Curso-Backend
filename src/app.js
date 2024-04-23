@@ -20,13 +20,15 @@ const PORT = process.env.PORT || 8080;
 const DBURL = `mongodb+srv://CoderBertonasco:bLsveGKxfX2hEU9J@codercluster.2eipwd5.mongodb.net/e_commerce?retryWrites=true&w=majority&appName=CoderCluster`;
 const connection = mongoose.connect(DBURL);
 
-//Middlawares
+//////////////////////////////////////////////////////Middlawares//////////////////////////////////////////////////////
+
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.engine("handlebars", handlebars.engine());
 
+//////////////////////////////////////////////////////Session//////////////////////////////////////////////////////
 app.use(
   session({
     store: MongoStore.create({
@@ -40,31 +42,40 @@ app.use(
   })
 );
 
+//////////////////////////////////////////////////////PASSPORT//////////////////////////////////////////////////////
+
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Configuracion de archivos estaticos
+//////////////////////////////////////////////////////Configuracion de archivos estaticos//////////////////////////////////////////////////////
+
 app.use("/static", express.static(__dirname + "/public"));
 app.use("/static", express.static(__dirname + "/chat"));
 app.use("/", router);
 
-//RUTAS
+//////////////////////////////////////////////////////RUTAS//////////////////////////////////////////////////////
+
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/sessions", sessionsRouter);
 
-//Mi variable server tiene adentro la aplicacion.
+//////////////////////////////////////////////////////Mi variable server tiene adentro la aplicacion.//////////////////////////////////////////////////////
+
 const server = app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
-//Inicializo el socket server del lado del servidor
+//////////////////////////////////////////////////////nicializo el socket server del lado del servidor//////////////////////////////////////////////////////
+
 const socketServer = new Server(server); // Instanciando socket.io
 
-//El metodo productsSocket que importe hace que mi socket server le emita los datos al cliente
+//////////////////////////////////////////////////////El metodo productsSocket que importe hace que mi socket server le emita los datos al cliente//////////////////////////////////////////////////////
+
 productsSocket(socketServer);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const msg = [];
 socketServer.on("connection", (socket) => {
