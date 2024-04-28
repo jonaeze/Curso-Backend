@@ -64,6 +64,20 @@ p{
     width: 100%;
     padding: 10px;
     margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #bd8d46;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.submit-btn-register {
+    width: 100%;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border: none;
     border-radius: 5px;
     background-color: #bd8d46;
@@ -83,4 +97,73 @@ p{
 
 .link:hover {
     text-decoration: underline;
+}
+
+.link-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Centrar horizontalmente */
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-row {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.card {
+    flex: 1 1 calc(25% - 20px);
+    /* Ajuste para permitir 4 tarjetas por fila con márgenes */
+    margin: 10px;
+    padding: 20px;
+    border: 2px solid #a51c30;
+    /* Borde con color de la temática */
+    border-radius: 10px;
+    /* Borde redondeado */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Fondo negro con transparencia */
+    color: #a51c30;
+    /* Color de texto de la temática */
+    font-size: 16px;
+    /* Tamaño de fuente */
+    text-align: left;
+    /* Alineación de texto */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    /* Sombra blanca */
+}
+
+.card h3 {
+    color: #fff;
+    /* Color de título */
+    background-color: #a51c30;
+    /* Fondo de título */
+    padding: 10px;
+    /* Espaciado del título */
+    margin: -20px -20px 20px -20px;
+    /* Márgenes para alinear con el borde de la tarjeta */
+    border-top-left-radius: 10px;
+    /* Borde redondeado superior izquierdo */
+    border-top-right-radius: 10px;
+    /* Borde redondeado superior derecho */
+}
+
+.card p {
+    margin-bottom: 10px;
+    /* Espaciado entre párrafos */
+}
+
+.title-products {
+    color: #fff;
+    /* Color de texto blanco */
+    font-family: 'Arial', sans-serif;
+    /* Puedes cambiar la fuente según tus preferencias */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,26 +1,17 @@
-<div>
-    <h2>Productos</h2>
-    <table id="productsTable">
-        <thead>
-            <tr>
-                <th>Nombre</span></th>
-                <th>Categoria</span></th>
-                <th>Precio</span></th>
-                <th>Código</span></th>
-                <th>Stock</span></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{this.title}}</td>
-                <td>{{this.category}}</td>
-                <td>{{this.price}}</td>
-                <td>{{this.code}}</td>
-                <td>{{this.stock}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <a href="/api/sessions/logout">Cerrar Sesión</a>
+<div class="container">
+    <h2 class="title-products">Productos</h2>
+    <div class="cards-container">
+        {{#each products}}
+        <div class="card">
+            <h3>{{this.title}}</h3>
+            <p><strong>Categoria:</strong> {{this.category}}</p>
+            <p><strong>Precio:</strong> {{this.price}}</p>
+            <p><strong>Código:</strong> {{this.code}}</p>
+            <p><strong>Stock:</strong> {{this.stock}}</p>
+        </div>
+        {{/each}}
+    </div>
+    <a href="/api/sessions/logout" class="link">Cerrar Sesión</a>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
