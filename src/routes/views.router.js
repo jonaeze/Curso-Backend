@@ -1,6 +1,7 @@
 import { Router } from "express";
 import ProductManager from "../../src/daos/mongo/Products.dao.mongo.js";
 import { authToken } from "../utils.js";
+import { currentStrategy } from "../middlewares/current.js";
 
 const productManager = new ProductManager();
 const router = new Router();
@@ -56,6 +57,12 @@ router.get("/restore", (request, response) => {
   } catch (error) {
     response.render(error.message);
   }
+});
+
+router.get("/current", currentStrategy, (request, response) => {
+  // Puedes acceder a los datos del usuario guardados en res.locals.user
+  const user = response.locals.user;
+  response.render("current", { user }); // Renderizamos la vista y pasamos los datos del usuario
 });
 
 export default router;
