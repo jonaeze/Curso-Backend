@@ -22,8 +22,11 @@ export const currentStrategy = (request, response, next) => {
     if (error) {
       return response.status(401).json({ error: "Token inválido o expirado" });
     }
-    // Guardamos los datos del usuario en la respuesta
-    response.locals.user = decoded.userData;
+    // Filtramos los datos del usuario para excluir la contraseña
+    const userDataWithoutPassword = { ...decoded.userData };
+    delete userDataWithoutPassword.password;
+    // Guardamos los datos filtrados del usuario en la respuesta
+    response.locals.user = userDataWithoutPassword;
     next(); // Continuamos con el siguiente middleware
   });
 };

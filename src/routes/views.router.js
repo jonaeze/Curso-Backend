@@ -23,7 +23,7 @@ router.get("/realtimeproducts", authToken, (request, response) => {
   }
 });
 
-router.get("/chat", (request, response) => {
+router.get("/chat", authToken, (request, response) => {
   try {
     response.render("chat");
   } catch (error) {
@@ -47,7 +47,7 @@ router.get("/login", (request, response) => {
   }
 });
 
-router.get("/", (request, response) => {
+router.get("/", authToken, (request, response) => {
   response.render("realTimeProducts");
 });
 
