@@ -8,7 +8,7 @@ const __dirname = dirname(__filename);
 
 //----------Clave privada----------//
 
-const PRIVATE_KEY = "CoderKey";
+export const PRIVATE_KEY = "CoderKey";
 
 //----------Hasheo de Contraseña----------//
 

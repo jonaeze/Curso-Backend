@@ -1,11 +1,12 @@
 import express from "express";
 import UsersManager from "../daos/mongo/Users.dao.mongo.js";
 import { authToken } from "../utils.js";
+import { currentStrategy } from "../middlewares/current.js";
 
 const usersManager = new UsersManager();
 const usersRouter = express.Router();
 
-usersRouter.get("/", authToken, async (request, response) => {
+usersRouter.get("/", authToken, currentStrategy, async (request, response) => {
   try {
     const limit = request.query.limit; // Los datos de las peticiones se guardan en un objeto que se llama "REQUEST"
     const page = request.query.page;
@@ -29,17 +30,22 @@ usersRouter.get("/", authToken, async (request, response) => {
   }
 });
 
-usersRouter.get("/:uid", authToken, async (request, response) => {
-  try {
-    const uid = request.params.uid;
-    const foundUser = await usersManager.getUserById(uid);
-    response.send(foundUser);
-  } catch (error) {
-    response.send(error.message);
+usersRouter.get(
+  "/:uid",
+  authToken,
+  currentStrategy,
+  async (request, response) => {
+    try {
+      const uid = request.params.uid;
+      const foundUser = await usersManager.getUserById(uid);
+      response.send(foundUser);
+    } catch (error) {
+      response.send(error.message);
+    }
   }
-});
+);
 
-usersRouter.post("/", authToken, async (request, response) => {
+usersRouter.post("/", authToken, currentStrategy, async (request, response) => {
   try {
     /*Recordar validar si el mail ya fue usado anteriormente*/
     const newUser = request.body;
@@ -50,24 +56,34 @@ usersRouter.post("/", authToken, async (request, response) => {
   }
 });
 
-usersRouter.put("/:uid", authToken, async (request, response) => {
-  try {
-    const uid = request.params.uid;
-    const updatedUser = await usersManager.updateUser(uid, request.body);
-    response.send(updatedUser);
-  } catch (error) {
-    response.send(error.message);
+usersRouter.put(
+  "/:uid",
+  authToken,
+  currentStrategy,
+  async (request, response) => {
+    try {
+      const uid = request.params.uid;
+      const updatedUser = await usersManager.updateUser(uid, request.body);
+      response.send(updatedUser);
+    } catch (error) {
+      response.send(error.message);
+    }
   }
-});
+);
 
-usersRouter.delete("/:uid", authToken, async (request, response) => {
-  try {
-    const uid = request.params.uid;
-    const newUsersList = await usersManager.deleteUser(uid);
-    response.send(newUsersList);
-  } catch (error) {
-    response.send(error.message);
+usersRouter.delete(
+  "/:uid",
+  authToken,
+  currentStrategy,
+  async (request, response) => {
+    try {
+      const uid = request.params.uid;
+      const newUsersList = await usersManager.deleteUser(uid);
+      response.send(newUsersList);
+    } catch (error) {
+      response.send(error.message);
+    }
   }
-});
+);
 
 export default usersRouter;
