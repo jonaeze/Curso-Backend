@@ -1,8 +1,10 @@
-import { Router, request, response } from "express";
-import userModel from "../daos/mongo/models/users.model.js";
+import { Router } from "express";
+import UsersManager from "../daos/mongo/Users.dao.mongo.js";
 import { createHash, isValidPassword } from "../utils.js";
-import passport from "passport";
+// import passport from "passport";
+import { generateToken } from "../utils.js";
 
+const userManager = new UsersManager();
 const sessionsRouter = Router();
 
 /*sessionsRouter.post("/register", async (request, response) => {
@@ -29,44 +31,55 @@ const sessionsRouter = Router();
     }
 });*/
 
-//----------Register----------//
+/*----------Register----------*/
 
-sessionsRouter.post(
-  "/register",
-  passport.authenticate("register", { failureRedirect: "/failregister" }),
-  async (request, response) => {
+sessionsRouter.post("/register", async (request, response) => {
+  const { first_name, last_name, email, age } = request.body;
+  /*La vladidacion del Email lo hace el DAO (desde la 42 hasta la 54) el ruter solo lo llama igual que addproduct*/
+  try {
+    const user = await userManager.getUserByEmail({ email: username });
+    if (user) {
+      console.log("El email ya existe");
+      response.send(error.message);
+    }
+    const newUser = {
+      first_name,
+      last_name,
+      email,
+      age,
+      password: createHash(password),
+    };
     response
       .status(201)
-      .send({ status: "success", message: "Usuario registrado" });
+      .send({ status: "success", message: "Usuario registrado" })
+      .redirect("/login");
+  } catch (error) {
+    console.error(error);
+    response.status(500).send({ status: "error", error: error.message });
   }
-);
+});
 
 sessionsRouter.get("/failregister", async (request, response) => {
   console.log("error");
   response.send({ error: "Falló" });
 });
 
-//----------Login----------//
+//----------Login Session----------//
 
-sessionsRouter.post(
-  "/login",
-  passport.authenticate("login", { failureRedirect: "/faillogin" }),
-  async (request, response) => {
-    if (!request.user) return response.status(400).send("error");
-    request.session.user = {
-      first_name: request.user.first_name,
-      last_name: request.user.last_name,
-      email: request.user.email,
-      age: request.user.age,
-    };
-    response.status(200).send({ status: "success", payload: request.user });
-  }
-);
-
-sessionsRouter.get("/faillogin", async (request, res) => {
-  console.log("error");
-  res.send({ error: "Fallo" });
-});
+// sessionsRouter.post(
+//   "/login",
+//   passport.authenticate("login", { failureRedirect: "/faillogin" }),
+//   async (request, response) => {
+//     if (!request.user) return response.status(400).send("error");
+//     request.session.user = {
+//       first_name: request.user.first_name,
+//       last_name: request.user.last_name,
+//       email: request.user.email,
+//       age: request.user.age,
+//     };
+//     response.status(200).send({ status: "success", payload: request.user });
+//   }
+// );
 
 /*sessionsRouter.post("/login", async (request, response) => {
     try {
@@ -104,11 +117,43 @@ sessionsRouter.get("/faillogin", async (request, res) => {
     }
 });*/
 
+/*----------Login JWT----------*/
+
+sessionsRouter.post("/login", async (request, response) => {
+  if (!request.body.email) return response.status(400).send("error");
+  /*-----Se valida el usuario-----*/
+  const user = await userManager.getUserByEmail(request.body.email);
+  console.log("USUARIO JWT", user);
+  /*-----Se valida la contraseña-----*/
+  const validatePassword = isValidPassword(user, request.body.password);
+  console.log("entre a validar", validatePassword);
+  if (!validatePassword)
+    return response
+      .status(401)
+      .send({ error: "error", message: "Error de credenciales" });
+
+  const userData = {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    role: user.role,
+  };
+
+  const token = generateToken(userData);
+
+  response.cookie("Authorization", token).redirect("/realTimeProducts");
+});
+
+sessionsRouter.get("/faillogin", async (request, res) => {
+  console.log("error");
+  res.send({ error: "Fallo" });
+});
+
 //----------Logout----------//
 
 sessionsRouter.get("/logout", async (request, response) => {
   try {
-    response.clearCookie("connect.sid").redirect("/login");
+    response.clearCookie("Authorization").redirect("/login");
   } catch (error) {
     console.error(error);
     response

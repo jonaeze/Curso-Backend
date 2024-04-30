@@ -24,30 +24,45 @@ export const isValidPassword = (user, password) => {
 
 //----------Generamos Token----------//
 
-export const generateToken = (user) => {
-  const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: "1h" });
+export const generateToken = (userData) => {
+  const token = jwt.sign({ userData }, PRIVATE_KEY, { expiresIn: "1h" });
   return token;
 };
 
 //----------Logica de Autorizacion----------//
 
 export const authToken = (request, response, next) => {
-  const authHeader = request.headers.authorization;
-  if (!authHeader)
-    return response
-      .status(401)
-      .send({ status: "error", message: "No autorizado" });
-  console.log(authHeader);
-  const token = authHeader.split(" ")[1];
+  let headerToken = request.headers.Authorization;
+  let cookieToken = request.cookies.Authorization;
+  let accessToken = "";
+
+  if (!cookieToken && !headerToken) {
+    if (request.originalUrl.includes("/api")) {
+      return response.status(403).send({
+        status: "error",
+        error: "No se encontró token de acceso",
+      });
+    }
+    return response.redirect("/login");
+  }
+  !cookieToken
+    ? (accessToken = headerToken.split(" ")[1])
+    : (accessToken = cookieToken);
 
   //----------Verificacion de Token----------//
 
-  jwt.verify(token, PRIVATE_KEY, (error, credentials) => {
-    console.log(error);
-    if (error)
-      return res
-        .status(401)
-        .send({ status: "error", message: "No autorizado" });
+  const { role } = jwt.verify(accessToken, PRIVATE_KEY).userData; //Desestructurando USERDATA//
+  console.log("SOLO ROL", role);
+  jwt.verify(accessToken, PRIVATE_KEY, (error, credentials) => {
+    if (error) {
+      if (request.originalUrl.includes("/api")) {
+        return response.status(403).send({
+          status: "error",
+          error: "No se encontró token de acceso",
+        });
+      }
+      return response.redirect("/login");
+    }
     response.user = credentials.user;
     next();
   });

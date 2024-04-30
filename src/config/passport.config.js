@@ -36,24 +36,24 @@ const initializePassport = () => {
     )
   );
 
-  passport.use(
-    "login",
-    new LocalStrategy(
-      { usernameField: "email" },
-      async (username, password, done) => {
-        try {
-          const user = await userService.findOne({ email: username });
-          if (!user) return done(null, false);
-          const valid = isValidPassword(user, password);
-          if (!valid) return done(null, false);
+  // passport.use(
+  //   "login",
+  //   new LocalStrategy(
+  //     { usernameField: "email" },
+  //     async (username, password, done) => {
+  //       try {
+  //         const user = await userService.findOne({ email: username });
+  //         if (!user) return done(null, false);
+  //         const valid = isValidPassword(user, password);
+  //         if (!valid) return done(null, false);
 
-          return done(null, user);
-        } catch (error) {
-          return done(error);
-        }
-      }
-    )
-  );
+  //         return done(null, user);
+  //       } catch (error) {
+  //         return done(error);
+  //       }
+  //     }
+  //   )
+  // );
 
   passport.serializeUser((user, done) => {
     done(null, user._id);

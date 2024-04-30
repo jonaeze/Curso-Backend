@@ -9,11 +9,13 @@ import cartsRouter from "./routes/carts.router.js";
 import router from "./routes/views.router.js";
 import productsSocket from "../src/sockets/realTimeProducts.socket.js";
 import chatRouter from "./routes/chat.router.js";
-import session from "express-session";
-import MongoStore from "connect-mongo";
+// import session from "express-session";
+// import MongoStore from "connect-mongo";
 import sessionsRouter from "./routes/session.router.js";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
+import cookieParser from "cookie-parser";
+import usersRouter from "./routes/user.router.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -30,24 +32,25 @@ app.engine("handlebars", handlebars.engine());
 
 //----------Sessions----------//
 
-app.use(
-  session({
-    store: MongoStore.create({
-      mongoUrl: DBURL,
-      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-      ttl: 10 * 60,
-    }),
-    secret: "coderS3cr3t",
-    resave: false, //guarda en memoria
-    saveUninitialized: true, //lo guarda a penas se crea
-  })
-);
+// app.use(
+//   session({
+//     store: MongoStore.create({
+//       mongoUrl: DBURL,
+//       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+//       ttl: 10 * 60,
+//     }),
+//     secret: "coderS3cr3t",
+//     resave: false, //guarda en memoria
+//     saveUninitialized: true, //lo guarda a penas se crea
+//   })
+// );
 
 //----------Passport----------//
 
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(cookieParser("coderS3cr3t"));
+// app.use(passport.session());
 
 //----------Configuracion de archivos estaticos----------//
 
@@ -61,6 +64,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/sessions", sessionsRouter);
+app.use("/api/users", usersRouter);
 
 //----------Mi variable server tiene adentro la aplicacion.----------//
 
