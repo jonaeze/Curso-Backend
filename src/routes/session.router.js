@@ -1,9 +1,9 @@
 import { Router } from "express";
-import UsersManager from "../daos/mongo/Users.dao.mongo.js";
+import UsersDaoMongo from "../daos/mongo/Users.dao.mongo.js";
 import { createHash, isValidPassword, generateToken } from "../utils/utils.js";
 // import passport from "passport";
 
-const userManager = new UsersManager();
+const userManager = new UsersDaoMongo();
 const sessionsRouter = Router();
 
 /*sessionsRouter.post("/register", async (request, response) => {

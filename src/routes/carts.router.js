@@ -1,10 +1,10 @@
 // import { Router, response } from "express";
-// import CartManager from "../daos/fs/cartManager.fs.class.js"
+// import CartsDaoMongo from "../daos/fs/CartsDaoMongo.fs.class.js"
 import express from "express";
-import CartManager from "../daos/mongo/Carts.dao.mongo.js";
+import CartsDaoMongo from "../daos/mongo/Carts.dao.mongo.js";
 import { authToken } from "../utils/utils.js";
 
-const cartsManager = new CartManager();
+const cartsManager = new CartsDaoMongo();
 const cartsRouter = express.Router();
 
 cartsRouter.post("/", async (request, response) => {

@@ -1,9 +1,9 @@
 import express from "express";
-import UsersManager from "../daos/mongo/Users.dao.mongo.js";
+import UsersDaoMongo from "../daos/mongo/Users.dao.mongo.js";
 import { authToken } from "../utils/utils.js";
 import { currentStrategy } from "../middlewares/current.js";
 
-const usersManager = new UsersManager();
+const usersDaoMongo = new UsersDaoMongo();
 const usersRouter = express.Router();
 
 usersRouter.get("/", authToken, currentStrategy, async (request, response) => {
@@ -18,7 +18,7 @@ usersRouter.get("/", authToken, currentStrategy, async (request, response) => {
       ? (filters.last_name = request.query.last_name)
       : filters;
 
-    const allUsers = await usersManager.getUsers(
+    const allUsers = await usersDaoMongo.getUsers(
       limit,
       page,
       filters,
@@ -37,7 +37,7 @@ usersRouter.get(
   async (request, response) => {
     try {
       const uid = request.params.uid;
-      const foundUser = await usersManager.getUserById(uid);
+      const foundUser = await usersDaoMongo.getUserById(uid);
       response.send(foundUser);
     } catch (error) {
       response.send(error.message);
@@ -49,7 +49,7 @@ usersRouter.post("/", authToken, currentStrategy, async (request, response) => {
   try {
     /*Recordar validar si el mail ya fue usado anteriormente*/
     const newUser = request.body;
-    const user = await usersManager.addUser(newUser);
+    const user = await usersDaoMongo.addUser(newUser);
     response.send(user);
   } catch (error) {
     response.send(error.message);
@@ -63,7 +63,7 @@ usersRouter.put(
   async (request, response) => {
     try {
       const uid = request.params.uid;
-      const updatedUser = await usersManager.updateUser(uid, request.body);
+      const updatedUser = await usersDaoMongo.updateUser(uid, request.body);
       response.send(updatedUser);
     } catch (error) {
       response.send(error.message);
@@ -78,7 +78,7 @@ usersRouter.delete(
   async (request, response) => {
     try {
       const uid = request.params.uid;
-      const newUsersList = await usersManager.deleteUser(uid);
+      const newUsersList = await usersDaoMongo.deleteUser(uid);
       response.send(newUsersList);
     } catch (error) {
       response.send(error.message);

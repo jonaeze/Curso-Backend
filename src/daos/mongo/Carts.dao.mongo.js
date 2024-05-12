@@ -1,6 +1,6 @@
 import cartModel from "./models/carts.model.js";
 
-class CartManager {
+class CartsDaoMongo {
   constructor() {}
 
   createCart = async () => {
@@ -64,4 +64,4 @@ class CartManager {
   };
 }
 
-export default CartManager;
+export default CartsDaoMongo;

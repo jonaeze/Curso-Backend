@@ -1,6 +1,6 @@
 import usersModel from "./models/users.model.js";
 
-class UsersManager {
+class UsersDaoMongo {
   constructor() {}
 
   getUsers = async (limit = 10, page = 1, filters, sortOptions) => {
@@ -89,4 +89,4 @@ class UsersManager {
   };
 }
 
-export default UsersManager;
+export default UsersDaoMongo;
