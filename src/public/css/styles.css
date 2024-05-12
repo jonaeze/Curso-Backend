@@ -86,6 +86,10 @@ p{
     font-weight: bold;
 }
 
+.submit-btn-register:hover {
+    background-color: #a51c30;
+}
+
 .submit-btn:hover {
     background-color: #a51c30;
 }

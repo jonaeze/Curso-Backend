@@ -1,26 +1,32 @@
+// import mongoose from "mongoose";
+// import session from "express-session";
+// import MongoStore from "connect-mongo";
 import express from "express";
-import __dirname from "./utils.js";
+import passport from "passport";
+import cookieParser from "cookie-parser";
+
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import connectMongoDB from "./config/database.js";
-import mongoose from "mongoose";
+
+import __dirname from "./utils/utils.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
-import router from "./routes/views.router.js";
-import productsSocket from "../src/sockets/realTimeProducts.socket.js";
-import chatRouter from "./routes/chat.router.js";
-// import session from "express-session";
-// import MongoStore from "connect-mongo";
-import sessionsRouter from "./routes/session.router.js";
-import passport from "passport";
-import initializePassport from "./config/passport.config.js";
-import cookieParser from "cookie-parser";
 import usersRouter from "./routes/user.router.js";
+import chatRouter from "./routes/chat.router.js";
+import sessionsRouter from "./routes/session.router.js";
+import router from "./routes/views.router.js";
+
+import productsSocket from "../src/sockets/realTimeProducts.socket.js";
+
+import initializePassport from "./config/passport.config.js";
+
+import enviroment from "./config/enviroment.config.js";
+
+console.log("LLAMANDO AL PUERTO", enviroment.port);
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-const DBURL = `mongodb+srv://CoderBertonasco:bLsveGKxfX2hEU9J@codercluster.2eipwd5.mongodb.net/e_commerce?retryWrites=true&w=majority&appName=CoderCluster`;
-const connection = mongoose.connect(DBURL);
 
 //----------Middlawares----------//
 
@@ -31,6 +37,9 @@ app.use(express.json());
 app.engine("handlebars", handlebars.engine());
 
 //----------Sessions----------//
+
+// const DBURL = `mongodb+srv://CoderBertonasco:bLsveGKxfX2hEU9J@codercluster.2eipwd5.mongodb.net/e_commerce?retryWrites=true&w=majority&appName=CoderCluster`;
+// const connection = mongoose.connect(DBURL);
 
 // app.use(
 //   session({
@@ -45,7 +54,7 @@ app.engine("handlebars", handlebars.engine());
 //   })
 // );
 
-//----------Passport----------//
+/*----------Passport----------*/
 
 initializePassport();
 app.use(passport.initialize());

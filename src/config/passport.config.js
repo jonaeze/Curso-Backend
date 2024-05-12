@@ -1,7 +1,7 @@
 import passport from "passport";
 import local from "passport-local";
 import userService from "../daos/mongo/models/users.model.js";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
 
 const LocalStrategy = local.Strategy;
 

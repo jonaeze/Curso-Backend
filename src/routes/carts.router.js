@@ -2,7 +2,7 @@
 // import CartManager from "../daos/fs/cartManager.fs.class.js"
 import express from "express";
 import CartManager from "../daos/mongo/Carts.dao.mongo.js";
-import { authToken } from "../utils.js";
+import { authToken } from "../utils/utils.js";
 
 const cartsManager = new CartManager();
 const cartsRouter = express.Router();

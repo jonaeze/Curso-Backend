@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { PRIVATE_KEY } from "../utils.js";
+import { PRIVATE_KEY } from "../utils/utils.js";
 
 export const currentStrategy = (request, response, next) => {
   // Extraemos el token de la cookie

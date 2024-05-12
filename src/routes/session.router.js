@@ -1,8 +1,7 @@
 import { Router } from "express";
 import UsersManager from "../daos/mongo/Users.dao.mongo.js";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword, generateToken } from "../utils/utils.js";
 // import passport from "passport";
-import { generateToken } from "../utils.js";
 
 const userManager = new UsersManager();
 const sessionsRouter = Router();

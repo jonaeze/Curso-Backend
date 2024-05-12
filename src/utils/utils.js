@@ -2,18 +2,22 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import enviroment from "../config/enviroment.config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+//TODO: Mover cada export a un archivo dentro de la carpeta utils (si se puede agrupar segun la funcionalidad)
 //----------Clave privada----------//
 
-export const PRIVATE_KEY = "CoderKey";
+export const PRIVATE_KEY = enviroment.jwtPrivateKey;
 
 //----------Hasheo de Contraseña----------//
 
 export const createHash = (password) =>
   bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+
+//----------Validamos Contraseña----------//
 
 export const isValidPassword = (user, password) => {
   console.log(
@@ -51,8 +55,6 @@ export const authToken = (request, response, next) => {
 
   //----------Verificacion de Token----------//
 
-  const { role } = jwt.verify(accessToken, PRIVATE_KEY).userData; //Desestructurando USERDATA//
-  console.log("SOLO ROL", role);
   jwt.verify(accessToken, PRIVATE_KEY, (error, credentials) => {
     if (error) {
       if (request.originalUrl.includes("/api")) {
