@@ -17,10 +17,14 @@ class ProductsController {
       request.query.status ? (filters.status = request.query.status) : filters;
 
       if (!Number.isInteger(parseInt(limit))) {
-        throw new Error("El limite ingresado no es un valor entero positivo.");
+        return response
+          .status(500)
+          .send("El limite ingresado no es un valor entero positivo.");
       }
       if (!Number.isInteger(parseInt(page))) {
-        throw new Error("La pagina ingresada no es un valor entero positivo.");
+        return response
+          .status(500)
+          .send("La pagina ingresada no es un valor entero positivo.");
       }
 
       const products = await productsService.get(
@@ -55,22 +59,66 @@ class ProductsController {
       const foundProduct = await productsService.getById(pid);
       response.send(foundProduct);
     } catch (error) {
-      response.send(error.message);
+      response.status(500).send(error.message);
     }
   };
 
   createProduct = async (request, response) => {
     try {
-    } catch (error) {}
+      const productData = request.body;
+      // Validar que los campos requeridos estén presentes
+      this.validate(productData);
+      // Verificar si el código del producto ya está en uso
+      const existingProduct = await productsService.getByCode(productData.code);
+      if (existingProduct) {
+        //Cuando devuelvo un ERROR debo agregarle el return a la respuesta para que corte su ejecucion.
+        return response
+          .status(500)
+          .send(
+            `El código ${productData.code} ya se encuentra utilizado por otro producto.`
+          );
+      }
+      const product = await productsService.create(productData);
+      response.send(product);
+    } catch (error) {
+      response.status(500).send(error.message);
+    }
+  };
+
+  validate = (product) => {
+    try {
+      if (
+        !product.title ||
+        !product.description ||
+        !product.price ||
+        !product.code ||
+        !product.stock
+      ) {
+        throw new Error("Todos los campos son obligatorios.");
+      }
+    } catch (error) {
+      throw new Error(error.message);
+    }
   };
 
   updateProduct = async (request, response) => {
     try {
-    } catch (error) {}
+      const pid = request.params.pid;
+      const productData = request.body;
+      //TODO:Hacer validaciones para el UPDATE
+      const updatedProduct = await productsService.update(pid, productData);
+      response.send(updatedProduct);
+    } catch (error) {
+      response.status(500).send(error.message);
+    }
   };
 
   deleteProduct = async (request, response) => {
     try {
+      //TODO:Validar que el producto exista, sino avisar que no exista
+      const pid = request.params.pid;
+      const newProductsList = await productsService.delete(pid);
+      response.send(newProductsList);
     } catch (error) {}
   };
 }
