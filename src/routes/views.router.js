@@ -1,6 +1,6 @@
 import { Router } from "express";
 import ProductsDaoMongo from "../../src/daos/mongo/Products.dao.mongo.js";
-import { authToken } from "../utils/utils.js";
+import { authToken } from "../utils.js";
 import { currentStrategy } from "../middlewares/current.js";
 
 const productsDaoMongo = new ProductsDaoMongo();

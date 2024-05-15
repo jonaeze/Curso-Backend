@@ -9,7 +9,7 @@ import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import connectMongoDB from "./config/database.js";
 
-import __dirname from "./utils/utils.js";
+import __dirname from "./utils.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import usersRouter from "./routes/user.router.js";

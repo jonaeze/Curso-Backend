@@ -1,12 +1,12 @@
 import { request, response } from "express";
-import productsService from "../services/index.service.js";
+import { productsService } from "../services/index.service.js";
 
 class ProductsController {
   constructor() {}
 
   getProducts = async (request, response) => {
     try {
-      const limit = request.query.limit ? request.query.limit : 4; // Los datos de las peticiones se guardan en un objeto que se llama "REQUEST"
+      const limit = request.query.limit ? request.query.limit : 10; // Los datos de las peticiones se guardan en un objeto que se llama "REQUEST"
       const page = request.query.page ? request.query.page : 1;
       const sortOptions = { ["price"]: request.query.sort || "asc" };
       const filters = {};
@@ -26,7 +26,6 @@ class ProductsController {
           .status(500)
           .send("La pagina ingresada no es un valor entero positivo.");
       }
-
       const products = await productsService.get(
         limit,
         page,

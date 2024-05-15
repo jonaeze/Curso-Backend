@@ -1,6 +1,6 @@
 import { Router } from "express";
 import UsersDaoMongo from "../daos/mongo/Users.dao.mongo.js";
-import { createHash, isValidPassword, generateToken } from "../utils/utils.js";
+import { createHash, isValidPassword, generateToken } from "../utils.js";
 // import passport from "passport";
 
 const userManager = new UsersDaoMongo();
@@ -122,7 +122,6 @@ sessionsRouter.post("/login", async (request, response) => {
   if (!request.body.email) return response.status(400).send("error");
   /*-----Se valida el usuario-----*/
   const user = await userManager.getUserByEmail(request.body.email);
-  console.log("USUARIO JWT", user);
   /*-----Se valida la contraseña-----*/
   const validatePassword = isValidPassword(user, request.body.password);
   console.log("entre a validar", validatePassword);

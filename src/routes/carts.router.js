@@ -1,30 +1,14 @@
 // import { Router, response } from "express";
 // import CartsDaoMongo from "../daos/fs/CartsDaoMongo.fs.class.js"
 import express from "express";
-import CartsDaoMongo from "../daos/mongo/Carts.dao.mongo.js";
-import { authToken } from "../utils/utils.js";
+import CartsController from "../controllers/carts.controller.js";
+import { authToken } from "../utils.js";
 
-const cartsManager = new CartsDaoMongo();
 const cartsRouter = express.Router();
 
-cartsRouter.post("/", async (request, response) => {
-  try {
-    const cartProducts = request.body.products;
-    const newCart = await cartsManager.createCart(cartProducts);
-    response.send(newCart);
-  } catch (error) {
-    response.send(error.message);
-  }
-});
+cartsRouter.post("/", CartsController.createCart);
 
-cartsRouter.get("/", async (request, response) => {
-  try {
-    const foundCarts = await cartsManager.getCarts();
-    response.send(foundCarts);
-  } catch (error) {
-    response.send(error.message);
-  }
-});
+cartsRouter.get("/", CartsController.getCarts);
 
 cartsRouter.get("/:cid", authToken, async (request, response) => {
   try {

@@ -3,21 +3,15 @@ import cartModel from "./models/carts.model.js";
 class CartsDaoMongo {
   constructor() {}
 
-  createCart = async () => {
-    let cart = await cartModel.create({});
-    return cart;
+  create = async (cartData) => {
+    return await cartModel.create({ cartData });
   };
 
-  getCarts = async () => {
-    try {
-      let carts = await cartModel.paginate(
-        {},
-        { populate: "products.product", lean: true, new: true }
-      );
-      return carts;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+  get = async () => {
+    return await cartModel.paginate(
+      {},
+      { populate: "products.product", lean: true, new: true }
+    );
   };
 
   addProductToCart = async (cid, pid, quantity) => {

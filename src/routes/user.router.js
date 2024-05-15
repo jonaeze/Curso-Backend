@@ -1,6 +1,6 @@
 import express from "express";
 import UsersDaoMongo from "../daos/mongo/Users.dao.mongo.js";
-import { authToken } from "../utils/utils.js";
+import { authToken } from "../utils.js";
 import { currentStrategy } from "../middlewares/current.js";
 
 const usersDaoMongo = new UsersDaoMongo();
