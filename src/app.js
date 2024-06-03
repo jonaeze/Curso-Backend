@@ -26,7 +26,6 @@ import enviroment from "./config/enviroment.config.js";
 console.log("LLAMANDO AL PUERTO", enviroment.port);
 
 const app = express();
-const PORT = process.env.PORT || 8080;
 
 //----------Middlawares----------//
 
@@ -36,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.engine("handlebars", handlebars.engine());
 
-//----------Sessions----------//
+/*----------Sessions----------*/
 
 // const DBURL = `mongodb+srv://CoderBertonasco:bLsveGKxfX2hEU9J@codercluster.2eipwd5.mongodb.net/e_commerce?retryWrites=true&w=majority&appName=CoderCluster`;
 // const connection = mongoose.connect(DBURL);
@@ -59,7 +58,7 @@ app.engine("handlebars", handlebars.engine());
 initializePassport();
 app.use(passport.initialize());
 app.use(cookieParser("coderS3cr3t"));
-// app.use(passport.session());
+/*app.use(passport.session());*/
 
 //----------Configuracion de archivos estaticos----------//
 
@@ -77,8 +76,8 @@ app.use("/api/users", usersRouter);
 
 //----------Mi variable server tiene adentro la aplicacion.----------//
 
-const server = app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+const server = app.listen(enviroment.port, () => {
+  console.log(`Servidor corriendo en http://localhost:${enviroment.port}`);
 });
 
 //----------Inicializo el socket server del lado del servidor----------//

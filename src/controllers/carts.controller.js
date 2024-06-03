@@ -22,7 +22,26 @@ class CartsController {
     }
   };
 
-  addProductToCart = async (request, response) => {};
+  addProductToCart = async (request, response) => {
+    // try {
+    //   const pid = request.params.pid;
+    //   const cid = request.params.cid;
+    //   let product = cart.products.find(
+    //     (product) => product.product.toString() === pid
+    //   );
+    //   if (product) {
+    //     product.quantity += quantity;
+    //   } else {
+    //     cart.products.push({ product: pid, quantity });
+    //   }
+    //   const productToCart = { product: pid, quantity: 1 };
+    //   const newProductToCart = await cartsService.addToCart(cid, pid, 1);
+    //   return await cart.save();
+    //   response.send(newProductToCart);
+    // } catch (error) {
+    //   response.send(error.message);
+    // }
+  };
 
   getCartById = async (request, response) => {};
 

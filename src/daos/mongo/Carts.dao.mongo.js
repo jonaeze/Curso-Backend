@@ -14,7 +14,7 @@ class CartsDaoMongo {
     );
   };
 
-  addProductToCart = async (cid, pid, quantity) => {
+  addToCart = async (cid, pid, quantity) => {
     let cart = await cartModel.findById(cid);
     let product = cart.products.find(
       (product) => product.product.toString() === pid
